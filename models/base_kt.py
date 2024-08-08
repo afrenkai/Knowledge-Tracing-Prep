@@ -19,7 +19,7 @@ class KnowledgeTracing:
     def add_question(self, question_id, skills, difficulty):
         """
         add a question to the knowledge tracing obj.
-        Arguments:
+        Parameters:
              question_id: id of the question to be used in a dict/list
              skills: list/np.ndarray of skills
              difficulty: list/np.ndarray of difficulties
@@ -30,7 +30,7 @@ class KnowledgeTracing:
     def update_student_knowledge(self, responses):
         """
          Update the student's knowledge based on their responses to the questions.
-        Arguments:
+        Parameters:
             responses (list or numpy.ndarray): A list or numpy array of the student's responses (1 for correct, 0 for incorrect).
         """
         X = self.question_skills
@@ -42,7 +42,7 @@ class KnowledgeTracing:
     def predict_response(self, question_id):
         """
         Predicts the student knowledge based on their responses to the questions.
-        Arguments:
+        Parameters:
              question_id: id of the question to be used in the list passed from the init
         Returns:
             probability: probability of being correct using the logreg formula (L/(1 + e^(-k(x-x_0))
