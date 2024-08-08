@@ -53,15 +53,14 @@ class LSTM():
         # sigmoid activator func, or 1/(1 + e^-x)
         def sigmoid (self, x):
             return 1/ (1 + np.exp(-x))
-        # sigoid prime
-
+        # sigoid prime. fun little diversion https://math.stackexchange.com/questions/4620347/why-is-the-derivative-of-the-sigmoid-function-equivalent-to-x-1-x
         def sigmoid_derivative(self, x):
             return x* (1-x)
         #tanh activation function (we do a little cheating (im too lazy to write out the fn))
         def tanh(self, x)
             return np.tanh(x)
         
-        # tanh prime
+        # tanh prime https://socratic.org/questions/what-is-the-derivative-of-tanh-x
 
         def tanh_derivative (self, x):
             return 1- self.tanh(x) ** 2
@@ -191,7 +190,7 @@ class DeepKnowledgeTracing():
                     loss = -np.sum(label * np.log(predicitons) + (1-label) * np.log(1-predictions))
                     total_loss += loss
                     output_dim = predicitons - label
-                    #BPTT
+                    #BackPropogation Through Time (BPTT)
                     self.lstm.backward(output_dim, eta)
                     print (f'Epoch {epoch + 1}/ {epochs}, Loss: {total_loss}')
 
