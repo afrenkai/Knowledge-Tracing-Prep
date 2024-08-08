@@ -57,7 +57,7 @@ class LSTM():
         def sigmoid_derivative(self, x):
             return x* (1-x)
         #tanh activation function (we do a little cheating (im too lazy to write out the fn))
-        def tanh(self, x)
+        def tanh(self, x):
             return np.tanh(x)
         
         # tanh prime https://socratic.org/questions/what-is-the-derivative-of-tanh-x
@@ -116,7 +116,7 @@ class LSTM():
 
             for t in reversed(range(len(self.x))):
                 #del output gate
-                x_tr = x[t].reshape(-1,1) * self.tanh(self.c_seq[t])
+                x_tr = x[t].reshape(-1,1)
                 do_t = output_dim[t].reshape(-1, 1) * self.tanh(self.seq_c[t])
                 do_t_raw = do_t * self.sigmoid_derivative(self.o[t])
                 dW_o += np.dot(do_t_raw, xt.T)
@@ -140,7 +140,7 @@ class LSTM():
 
                 di_t = d_c * self.c_til[t]
                 di_t_raw = di_t * self.sigmoid_derivative(self.i[t])
-                dW_i += np.dot(di_t_raw x_tr.T)
+                dW_i += np.dot(di_t_raw, x_tr.T)
                 dU_i += np.dot(di_t_raw, self.h_seq[t-1] if t > 0 else np.zeros.like(self.h).T)
                 db_i += di_t_raw
 
