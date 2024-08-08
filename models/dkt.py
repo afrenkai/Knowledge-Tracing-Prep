@@ -1,5 +1,11 @@
 import numpy as np
 
+'''NOTE: Using Deep Knowledge Tracing by Piech, et. al. (https://doi.org/10.48550/arXiv.1506.05908) 
+as well as np documentation https://numpy.org/doc/stable/reference/generated/numpy.zeros_like.html to generate like zero arrays for derivatives.
+using https://en.wikipedia.org/wiki/Long_short-term_memory for general theory and applications of LSTM (which DKT obviously dpends on. )
+'''
+
+
 class LSTM():
     def __init__(self, input_size, hidden_size):
         self.input_size = input_size
