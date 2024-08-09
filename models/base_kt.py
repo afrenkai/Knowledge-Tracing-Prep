@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 class KnowledgeTracing:
     def __init__(self, num_skills, num_questions):
         """
-        Initialization for the KnowledgeTracing obj.
+        Initialization for the KnowledgeTracing object.
 
         Arguments:
             num_skills: number of skills
@@ -47,6 +47,8 @@ class KnowledgeTracing:
         Returns:
             probability: probability of being correct using the logreg formula (L/(1 + e^(-k(x-x_0))
             where L is the max of the curve, k is the growth rate, x_0 is the midpoint, and x is the real number
+            Here: L is 1 (the max we want, in a PDF it ranges from 0 to 1), k is the student's current knowledge, x_0 is the difficulty of the quesiton at the specific id, and
+            x is the skill of the question.
         """
         question_skill = self.question_skills[question_id]
         probability = 1 / (1 + np.exp(-(self.student_knowledge @ question_skill - self.question_difficulty[question_id])))
