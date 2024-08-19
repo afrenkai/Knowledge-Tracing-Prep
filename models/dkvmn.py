@@ -5,6 +5,7 @@ import numpy as np
 
 class DKVMN:
     def __init__(self, mem_size, mem_state_dim, key_mem_state_dim) :
+        super(DKVMN, self).__init__()
         self.memory_size = mem_size
         self.memory_state_dimension = mem_state_dim
         self.key_memory_state_dimension = key_mem_state_dim
