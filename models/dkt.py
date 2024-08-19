@@ -105,9 +105,9 @@ class LSTM():
             return np.array(self.h_seq)
         ####### Backpropogation #######
         
-        def backward(self, output_dim, eta):
+        def backward(self, x, output_dim, eta):
             dW_i, dU_i, db_i = np.zeros_like(self.W_i), np.zeros_like(self.U_i), np.zeros_like(self.b_i)
-            dW_f, dU_f, db_i = np.zeros_like(self.W_f), np.zeros_like(self.U_f), np.zeros_like(self.b_f)
+            dW_f, dU_f, db_f = np.zeros_like(self.W_f), np.zeros_like(self.U_f), np.zeros_like(self.b_f)
             dW_o, dU_o, db_o = np.zeros_like(self.W_o), np.zeros_like(self.U_o), np.zeros_like(self.b_o)
             dW_c, dU_c, db_c = np.zeros_like(self.W_c), np.zeros_like(self.U_c), np.zeros_like(self.b_c)
             #d(h+1)
@@ -119,7 +119,7 @@ class LSTM():
                 x_tr = x[t].reshape(-1,1)
                 do_t = output_dim[t].reshape(-1, 1) * self.tanh(self.seq_c[t])
                 do_t_raw = do_t * self.sigmoid_derivative(self.o[t])
-                dW_o += np.dot(do_t_raw, xt.T)
+                dW_o += np.dot(do_t_raw, x_tr.T)
                 # prior state is t-1
                 dU_o += np.dot(do_t_raw, self.h_seq[t-1].T if t>0 else np.zeros_like(self.h).T)
                 db_o += do_t_raw
@@ -134,7 +134,7 @@ class LSTM():
                 df_t_raw = df_t * self.sigmoid_derivative(self.f[t])
                 dW_f += np.dot(df_t_raw, x_tr.T)
                 dU_f += np.dot(df_t_raw, self.h_seq[t-1] if t> 0 else np.zeros_like(self.h).T)
-                db_f += df_r_raw
+                db_f += df_t_raw
 
                 # del input gate
 
@@ -182,14 +182,14 @@ class DeepKnowledgeTracing():
         def train(self, sequences, labels, epochs, eta):
             for epoch in range (epochs):
                 total_loss = 0
-                for seq_label in zip(sequences, labels):
+                for seq, label in zip(sequences, labels):
                     # fwd pass
                     predictions = self.lstm.forward(seq)
 
                     # Binary Cross Entropy Loss Calculation
-                    loss = -np.sum(label * np.log(predicitons) + (1-label) * np.log(1-predictions))
+                    loss = -np.sum(label * np.log(predictions) + (1-label) * np.log(1-predictions))
                     total_loss += loss
-                    output_dim = predicitons - label
+                    output_dim = predictions - label
                     #BackPropogation Through Time (BPTT)
                     self.lstm.backward(output_dim, eta)
                     print (f'Epoch {epoch + 1}/ {epochs}, Loss: {total_loss}')
