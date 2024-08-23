@@ -17,9 +17,9 @@ class BayesianKnowlegeTracing():
 
         """
 
-        self.initial_prob = p_init
-        self.transit_prob = p_transit
-        self.slip_prob = p_slip
+        self.initial_prob = p_L_0
+        self.transit_prob = p_T
+        self.slip_prob = p_S
         self.guess_prob = p_guess
 
         #init of student's knowledge state
@@ -53,4 +53,8 @@ class BayesianKnowlegeTracing():
             Returns: Probability of a student knowing the skill
             """
             return self.knowledge_prob
+
+
+
+
 
